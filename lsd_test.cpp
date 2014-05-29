@@ -15,11 +15,7 @@
 using namespace std;
 using namespace cv;
 
-void thresh_callback(int, void* );
-int thresh = 150;
-int max_thresh = 255;
 Mat src, src_gray;
-RNG rng(12345);
 int main(int argc, char *argv[])
 {
   src= imread(argv[1],1);
