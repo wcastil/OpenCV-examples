@@ -23,6 +23,8 @@ cnt=contours[max_index]
 
 x,y,w,h = cv2.boundingRect(cnt)
 cv2.rectangle(im,(x,y),(x+w,y+h),(0,255,0),2)
+print "Size in pixels: "
+print  w,h
 cv2.imshow("Show",im)
 cv2.waitKey()
 cv2.destroyAllWindows()
