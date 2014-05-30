@@ -20,10 +20,28 @@ int thresh = 150;
 int max_thresh = 255;
 Mat src, src_hls, src_gray;
 RNG rng(12345);
+
+Rect findWhiteReference(Mat src); 
 int main(int argc, char *argv[])
 {
   src= imread(argv[1],1);
   resize(src, src, Size(896,506));
+
+  Rect brec = findWhiteReference(src); 
+  Scalar color = Scalar( rng.uniform(0, 0), rng.uniform(0,255), rng.uniform(0,0) );
+  rectangle(src, brec, color, 1); 
+ 
+
+  /*Display */
+  string source_window = "Source";
+  namedWindow( source_window, CV_WINDOW_NORMAL );
+  imshow( source_window, src );
+  waitKey(0);
+
+  return 0;
+}
+
+Rect findWhiteReference(Mat src){  
   medianBlur(src,src, 5);
   cout << "Blurred Imag\n";
   cvtColor(src, src_hls, CV_BGR2HLS);
@@ -59,14 +77,5 @@ int main(int argc, char *argv[])
     }
   }
   Rect brec = boundingRect(contours[max_index]);
-  Scalar color = Scalar( rng.uniform(0, 0), rng.uniform(0,255), rng.uniform(0,0) );
-  rectangle(src, brec, color, 1); 
-  
-  string source_window = "Source";
-
-  namedWindow( source_window, CV_WINDOW_NORMAL );
-  imshow( source_window, src );
-  waitKey(0);
-
-  return 0;
+  return brec;
 }
