@@ -3,12 +3,12 @@ import cv2
 from matplotlib import pyplot as plt
 
 
-im = cv2.imread('paper.jpg')
+im = cv2.imread('paper3.jpg')
 im = cv2.resize(im, (866, 506))
 im = cv2.medianBlur(im,5)    # 5 is a fairly small kernel size
 hsv_img = cv2.cvtColor(im, cv2.COLOR_BGR2HLS)
-COLOR_MIN = np.array([0, 205, 0],np.uint8)
-COLOR_MAX = np.array([255, 255, 70],np.uint8)
+COLOR_MIN = np.array([0, 190, 0],np.uint8)
+COLOR_MAX = np.array([255, 255, 200],np.uint8)
 frame_threshed = cv2.inRange(hsv_img, COLOR_MIN, COLOR_MAX)
 imgray = frame_threshed
 ret,thresh = cv2.threshold(frame_threshed,127,255,0)

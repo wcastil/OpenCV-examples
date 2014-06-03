@@ -23,16 +23,42 @@ int main(int argc, char *argv[])
   resize(src, src, Size(896,506));
   cvtColor(src, src_gray, CV_BGR2GRAY);
   Ptr<LineSegmentDetector> detector = createLineSegmentDetector(LSD_REFINE_ADV);
+  Ptr<LineSegmentDetector> detector_std = createLineSegmentDetector(LSD_REFINE_STD);
+  Ptr<LineSegmentDetector> detector_none = createLineSegmentDetector(LSD_REFINE_NONE);
+  vector<Vec4i> lines_std;
+  vector<Vec4i> lines_none;
   vector<Vec4i> lines;
   detector->detect(src_gray, lines);
+  detector_std->detect(src_gray, lines_std);
+  detector_none->detect(src_gray, lines_none);
+  cout << lines[0] << endl;
+  vector<Vec4i> big_lines;
+  Vec4i line;
+  for (int k =0; k < lines.size(); k++){
+    line = lines[k];
+//    if (abs(line[0]-line[2]) > 10 || abs(line[1]-line[3]) > 10){
+      big_lines.push_back(lines[k]);
+  //  }
+
+  }
+
+  Mat src_std = src.clone(); 
+  Mat src_none = src.clone();
   detector->drawSegments(src, lines);
+  detector_std->drawSegments(src_std, lines_std);
+  detector_none->drawSegments(src_none, lines_none);
+  cout << lines.size() << " STD: " << lines_std.size() << " None: " << lines_none.size() << endl;
+
+
 
   /* Create Window */
-  string source_window = "Source";
+  string source_window = "ADV";
 
   namedWindow( source_window, CV_WINDOW_NORMAL );
   moveWindow(source_window, 100,100);
   imshow( source_window, src );
+  imshow( "STD", src_std );
+  imshow( "none", src_none );
 
 
   waitKey(0);
